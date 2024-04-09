@@ -36,6 +36,11 @@ public class OpenBLiveClient(string code, long appId, string accessKeyId, string
         WebSocketStop();
     }
 
+    public async Task WaitProjectStop()
+    {
+        while (CancelToken?.IsCancellationRequested == false) await Task.Delay(1000, CancelToken.Token);
+    }
+
     private JsonElement ProjectStart()
     {
         const string projectStartUrl = $"{ProjectBaseUrl}/v2/app/start";

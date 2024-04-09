@@ -24,10 +24,15 @@ public static class Tester
         client.OpSendSmsReply += OpSendSmsReplyEvent;
         client.OpAuthReply += OpAuthReplyEvent;
         client.OpHeartbeatReply += OpHeartbeatReplyEvent;
-        Console.WriteLine(client.Start());
-        Console.ReadLine();
-        client.Stop();
-        Console.ReadLine();
+        var clientStartResult = client.Start();
+        Console.WriteLine(clientStartResult);
+        if (clientStartResult.Item1)
+        {
+            Console.ReadLine();
+            client.Stop();
+        }
+
+        client.WaitProjectStop().Wait();
     }
 
     private static void OpHeartbeatReplyEvent((int heartbeatReply, byte[] rawData) args)
