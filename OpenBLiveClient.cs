@@ -38,7 +38,14 @@ public class OpenBLiveClient(string code, long appId, string accessKeyId, string
 
     public async Task WaitProjectStop()
     {
-        while (CancelToken?.IsCancellationRequested == false) await Task.Delay(1000, CancelToken.Token);
+        try
+        {
+            while (CancelToken?.IsCancellationRequested == false) await Task.Delay(1000, CancelToken.Token);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("项目结束");
+        }
     }
 
     private JsonElement ProjectStart()
